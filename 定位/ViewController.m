@@ -21,7 +21,9 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.locationLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 200, 30)];
+    self.locationLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 300, 100)];
+    self.locationLabel.numberOfLines = 0;
+    self.locationLabel.text = @"位置信息获取中...";
     self.locationLabel.textAlignment = NSTextAlignmentCenter;
     [self.view addSubview:self.locationLabel];
     self.locationLabel.center = self.view.center;
@@ -30,9 +32,9 @@
     [LYXLocationManager lyx_requestWhenInUseAuthorization];
     [LYXLocationManager lyx_requestAlwaysAuthorization];
     //请求用户位置信息
-    [LYXLocationManager lyx_requestLocationWithController:self completeBlock:^(NSString *cityName, NSError *error) {
+    [LYXLocationManager lyx_requestLocationWith:^(NSString *locationDetail, CLPlacemark *placemark, NSError *error) {
         if (error == nil) {
-            self.locationLabel.text = cityName ?: @"未获取到位置信息";
+            self.locationLabel.text = locationDetail ?: @"未获取到位置信息";
         }else{
             self.locationLabel.text = @"获取位置错误";
         }
